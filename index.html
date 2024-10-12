@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syntax Highlighting Example</title>
+    <title>Editable Code Editor</title>
     <!-- Prism.js CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
     <style>
@@ -19,44 +19,92 @@
             border-radius: 5px;
             overflow: auto;
         }
+        .editor {
+            background: #1e1e1e;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: auto;
+            white-space: pre;
+            font-family: monospace;
+            height: 200px; /* Fixed height for the editor */
+        }
     </style>
 </head>
 <body>
 
-    <h1>HTML, CSS, and JavaScript Syntax Highlighting</h1>
+    <h1>Editable Code Editor</h1>
 
     <h2>HTML Code</h2>
-    <pre><code class="language-html" contenteditable="true">
-&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;My Page&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h1&gt;Hello, World!&lt;/h1&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-    </code></pre>
+    <div class="editor" id="html-editor" contenteditable="true">
+        &lt;!DOCTYPE html&gt;<br>
+        &lt;html lang="en"&gt;<br>
+        &lt;head&gt;<br>
+            &nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+            &nbsp;&nbsp;&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+            &nbsp;&nbsp;&lt;title&gt;My Page&lt;/title&gt;<br>
+        &lt;/head&gt;<br>
+        &lt;body&gt;<br>
+            &nbsp;&nbsp;&lt;h1&gt;Hello, World!&lt;/h1&gt;<br>
+        &lt;/body&gt;<br>
+        &lt;/html&gt;
+    </div>
 
     <h2>CSS Code</h2>
-    <pre><code class="language-css" contenteditable="true">
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
-    </code></pre>
+    <div class="editor" id="css-editor" contenteditable="true">
+        body {<br>
+            &nbsp;&nbsp;font-family: Arial, sans-serif;<br>
+            &nbsp;&nbsp;background-color: #f0f0f0;<br>
+        }
+    </div>
 
     <h2>JavaScript Code</h2>
-    <pre><code class="language-javascript" contenteditable="true">
-function greet() {
-    console.log("Hello, World!");
-}
-greet();
-    </code></pre>
+    <div class="editor" id="js-editor" contenteditable="true">
+        function greet() {<br>
+            &nbsp;&nbsp;console.log("Hello, World!");<br>
+        }<br>
+        greet();
+    </div>
+
+    <h2>Python Code</h2>
+    <div class="editor" id="python-editor" contenteditable="true">
+        def greet():<br>
+            &nbsp;&nbsp;print("Hello, World!")<br>
+        greet()
+    </div>
+
+    <button onclick="highlightCode()">Highlight Code</button>
 
     <!-- Prism.js JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <!-- Prism.js Python language support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    
+    <script>
+        function highlightCode() {
+            // Get content from the editable divs
+            const htmlCode = document.getElementById('html-editor').innerText;
+            const cssCode = document.getElementById('css-editor').innerText;
+            const jsCode = document.getElementById('js-editor').innerText;
+            const pythonCode = document.getElementById('python-editor').innerText;
+
+            // Create a temporary pre element to use Prism.js for highlighting
+            const tempPre = document.createElement('pre');
+            tempPre.innerHTML = `<code class="language-html">${htmlCode}</code>`;
+            Prism.highlightElement(tempPre.firstChild);
+            document.getElementById('html-editor').innerHTML = tempPre.innerHTML;
+
+            tempPre.innerHTML = `<code class="language-css">${cssCode}</code>`;
+            Prism.highlightElement(tempPre.firstChild);
+            document.getElementById('css-editor').innerHTML = tempPre.innerHTML;
+
+            tempPre.innerHTML = `<code class="language-javascript">${jsCode}</code>`;
+            Prism.highlightElement(tempPre.firstChild);
+            document.getElementById('js-editor').innerHTML = tempPre.innerHTML;
+
+            tempPre.innerHTML = `<code class="language-python">${pythonCode}</code>`;
+            Prism.highlightElement(tempPre.firstChild);
+            document.getElementById('python-editor').innerHTML = tempPre.innerHTML;
+        }
+    </script>
 </body>
 </html>
